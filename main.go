@@ -14,7 +14,7 @@ import (
 
 func GetRandomQuote() string {
 	return fmt.Sprintf("%s",
-		GetRandomFromFile("data.txt"))
+		GetRandomFromFile("data/data.txt"))
 }
 
 func GetRandomFromFile(file string) string {
