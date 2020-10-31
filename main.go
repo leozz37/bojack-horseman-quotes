@@ -8,6 +8,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -29,7 +30,10 @@ func GetWord(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	router := mux.NewRouter()
-	//port := os.Getenv("PORT")
+	port := os.Getenv("PORT")
+
+	log.Print("SERVER STARTED AT PORT: " + port)
+
 	router.HandleFunc("/", GetWord).Methods("GET")
-	log.Fatal(http.ListenAndServe(":8000", router))
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }
