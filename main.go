@@ -12,28 +12,27 @@ import (
 	"time"
 )
 
-func NewRandomXingamento() string {
+func GetRandomQuote() string {
 	return fmt.Sprintf("%s",
-		getRandomFromFile("data.txt"),)
+		GetRandomFromFile("data.txt"))
 }
 
-func getRandomFromFile(file string) string {
+func GetRandomFromFile(file string) string {
 	rand.Seed(time.Now().UnixNano())
 	all, _ := ioutil.ReadFile(file)
 	list := bytes.Split(all, []byte("\n"))
 	return string(list[rand.Intn(len(list))])
 }
 
-func GetWord(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, NewRandomXingamento())
+func GetQuote(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, GetRandomQuote())
 }
 
 func main() {
-	router := mux.NewRouter()
 	port := os.Getenv("PORT")
-
 	log.Print("SERVER STARTED AT PORT: " + port)
 
-	router.HandleFunc("/", GetWord).Methods("GET")
+	router := mux.NewRouter()
+	router.HandleFunc("/", GetQuote).Methods("GET")
 	log.Fatal(http.ListenAndServe(":"+port, router))
 }
